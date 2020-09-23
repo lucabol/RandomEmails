@@ -1,6 +1,9 @@
 module.exports = async function (context, req) {
-  context.res = {
+  return {
     // status: 200, /* Defaults to 200 */
-    body: { text: "Hello from the API" },
+    body: "<h1>Hello from the API.</h1>",
+    headers: {
+            "Content-Type": "text/html"
+    }
   };
 };
