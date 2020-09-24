@@ -2,7 +2,7 @@ const utils = require("../Shared/Utils.js")
 
 module.exports = async function (context, req) {
     const user = utils.getUser(req)
-    context.log(`USER RETRIEVED:${user}`)
+    context.log(`USER RETRIEVED:${JSON.stringify(user)}`)
 
     if(user)
         return utils.htmlResponse('<a class="button is-primary" href="/.auth/logout"><strong>Logout</strong></a>' + user.userDetails)
