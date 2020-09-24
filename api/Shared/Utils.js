@@ -10,7 +10,7 @@ const htmlResponse = htmlString => {
 
 const getUser = req => {
   const header = req.headers["x-ms-client-principal"];
-  if(!header) return {myError: 'no header'}
+  if(!header) return null // Empirically, absence of this header means not logged in
   const encoded = Buffer.from(header, "base64");
   const decoded = encoded.toString("ascii");
   return JSON.parse(decoded)    
