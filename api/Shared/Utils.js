@@ -8,14 +8,15 @@ const htmlResponse = htmlString => {
   };
 }
 
-const getUser1 = req => {
+const getUser = req => {
   const header = req.headers["x-ms-client-principal"];
+  if(!header) return {myError: 'no header'}
   const encoded = Buffer.from(header, "base64");
   const decoded = encoded.toString("ascii");
   return JSON.parse(decoded)    
 }
 
-async function getUser() {
+async function getUser1() {
      const response = await fetch("/.auth/me");
      const payload = await response.json();
      const { clientPrincipal } = payload;
