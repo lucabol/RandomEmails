@@ -6,15 +6,36 @@
     <script src="https://unpkg.com/htmx.org@0.1.2"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <title>Vanilla JavaScript App</title>
+    <title>TRL</title>
   </head>
 
   <body>
+      <!-- Brand and login -->
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <div class="navbar-item">
+            <span class="icon">
+              <i class="fas fa-lg fa-random"></i>
+          </span>
+          </div>
+          <div class="navbar-item">
+            <h1 class="title">TheRandomLife</h1>
+          </div>
+          <div class="navbar-item">
+            <div class="buttons">
+              <div hx-get="/api/login" hx-trigger="load"></div>
+            </div>
+          </div>
+        <div>  
+      </nav>
+
+      
+    <!-- Main pane -->
     <main>
-      <div hx-get="/api/login" hx-trigger="load"></div>
-      <h1 class="title">The Random Life</h1>
       <div hx-get="/api/message" hx-trigger="load delay:0.5s"></div>
     </main>
+
+    <!-- Footer -->
     <footer class="footer">
       <div class="content has-text-centered">
         <p>
