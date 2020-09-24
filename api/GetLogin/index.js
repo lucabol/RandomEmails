@@ -1,5 +1,9 @@
 const utils = require("../Shared/Utils.js")
 
 module.exports = async function (context, req) {
-  return utils.htmlResponse('<a class="button is-primary" href="/.auth/login/github">Login</a>')
+  const user = utils.getUser(req)
+  context.log(user)
+  return (user ?
+    utils.htmlResponse('<a class="button is-primary" href="/.auth/login/aad">Login</a>') :
+    utils.htmlResponse('<a class="button is-primary" href="/.auth/logout">Logout</a>'))
 };
