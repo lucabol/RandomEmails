@@ -11,7 +11,7 @@ const htmlResponse = htmlString => {
 const getUser = req => {
   const instanceid = process.env.WEBSITE_INSTANCE_ID
   const isLocal = typeof instanceid == 'undefined'
-  if(isLocal) return { userDetails:'lucabol@microsoft.com'}
+  if(isLocal) return { userDetails:'lucabollocal@microsoft.com'}
   //if(isLocal) return null
   const header = req.headers["x-ms-client-principal"];
   if(!header) return null // Empirically, absence of this header means not logged in
