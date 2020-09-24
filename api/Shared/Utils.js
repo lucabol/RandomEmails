@@ -9,7 +9,8 @@ const htmlResponse = htmlString => {
 }
 
 const getUser = req => {
-  const isLocal = !process.env["WEBSITE_INSTANCE_ID"]
+  const instanceid = process.env["WEBSITE_INSTANCE_ID"]
+  const isLocal = typeof instanceid == 'undefined'
   if(isLocal) return { userDetails:'lucabol@microsoft.com'}
   //if(isLocal) return null
   const header = req.headers["x-ms-client-principal"];
