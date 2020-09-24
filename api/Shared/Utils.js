@@ -8,10 +8,9 @@ const htmlResponse = htmlString => {
   };
 }
 
-const isLocal = !process.env["WEBSITE_INSTANCE_ID"]
-
 const getUser = req => {
-  //if(isLocal) return { userDetails:'lucabol@microsoft.com'}
+  const isLocal = !process.env["WEBSITE_INSTANCE_ID"]
+  if(isLocal) return { userDetails:'lucabol@microsoft.com'}
   //if(isLocal) return null
   const header = req.headers["x-ms-client-principal"];
   if(!header) return null // Empirically, absence of this header means not logged in
@@ -30,4 +29,3 @@ async function getUser1() {
 
 module.exports.htmlResponse = htmlResponse
 module.exports.getUser = getUser
-module.exports.isLocal = isLocal
