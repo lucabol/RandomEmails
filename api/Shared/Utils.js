@@ -1,7 +1,7 @@
-const htmlResponse = htmlString => { 
+const hr = htmlEl => { 
   return {
     status: 200,
-    body: htmlString,
+    body: htmlEl.toString(),
     headers: {
             "Content-Type": "text/html"
     }
@@ -28,5 +28,5 @@ async function getUser1() {
 }
 
 
-module.exports.htmlResponse = htmlResponse
+module.exports.hr = hr
 module.exports.getUser = getUser
