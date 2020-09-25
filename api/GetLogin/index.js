@@ -15,6 +15,6 @@ module.exports = async function (context, req) {
         return U.hr(html`
         <a class="button is-danger" href="/.auth/login/aad">
             <span class="icon is-small"><i class="fab fa-microsoft"></i></span>
-            <strong>Login</strong>
+            <span><strong>Login</strong></span>
         </a>`)
 }
