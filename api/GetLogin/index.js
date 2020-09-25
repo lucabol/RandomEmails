@@ -6,7 +6,15 @@ module.exports = async function (context, req) {
     context.log(`USER RETRIEVED:${JSON.stringify(user)}`)
 
     if(user)
-        return U.hr(html`<a class="button is-primary" href="/.auth/logout"><strong>Logout</strong></a>`)
+        return U.hr(html`
+        <a class="button is-primary" href="/.auth/logout">
+            <span class="icon is-small"><i class="fas fa-sign-out-alt"></i></span>
+            <span><strong>Logout</strong></span>
+        </a>`)
     else
-        return U.hr(html`<a class="button is-primary" href="/.auth/login/aad"><strong>Login</strong></a>`)
+        return U.hr(html`
+        <a class="button is-primary" href="/.auth/login/aad">
+            <span class="icon is-small"><i class="fab fa-microsoft" /></span>
+            <strong>Login</strong>
+        </a>`)
 }
