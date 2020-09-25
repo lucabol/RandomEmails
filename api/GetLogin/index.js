@@ -3,7 +3,7 @@ const html = require('nanohtml')
 
 module.exports = async function (context, req) {
     const user = U.getUser(req)
-    context.log(`USER RETRIEVED:${JSON.stringify(user)}`)
+    context.log(`GETLOGIN:${JSON.stringify(user)}`)
 
     if(user)
         return U.hr(html`
