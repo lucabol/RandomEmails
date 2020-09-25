@@ -7,13 +7,13 @@ module.exports = async function (context, req) {
 
     if(user)
         return U.hr(html`
-        <a class="button is-primary" href="/.auth/logout">
+        <a class="button is-danger" href="/.auth/logout">
             <span class="icon is-small"><i class="fas fa-sign-out-alt"></i></span>
             <span><strong>Logout</strong></span>
         </a>`)
     else
         return U.hr(html`
-        <a class="button is-primary" href="/.auth/login/aad">
+        <a class="button is-danger" href="/.auth/login/aad">
             <span class="icon is-small"><i class="fab fa-microsoft" /></span>
             <strong>Login</strong>
         </a>`)
