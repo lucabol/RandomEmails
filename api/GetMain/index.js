@@ -24,9 +24,11 @@ const drawIntroPage = () =>
 const pB = (text, classText) => html`
   <p class="panel-block ${classText}">${text}</p>
 `
-const getGroupEmails = (userData, groupName) => {
-  const weekly = userData.groups[groupName].weekly
-  const monthly = userData.groups[groupName].monthly
+const getGroupEmails = (userData, tabIndex) => {
+  const groupName = Object.keys(userData.groups)[tabIndex]
+  const group = userData.groups[groupName]
+  const weekly = group.weekly
+  const monthly = group.monthly
   return html`
     ${pB("Weekly", "has-text-danger is-uppercase has-text-weight-bold")}
     ${weekly.map((key, index) => pB(key))}
@@ -38,15 +40,15 @@ const getGroupEmails = (userData, groupName) => {
 const drawUserTasks = (user, tabIndex) => {
     const userData = U.loadUserData(user)
     const h = html`
-      <nav class="panel is-info">
+      <nav id="mainPanel" class="panel is-info">
         <p class="panel-heading has-text-centered">Random Emails for ${userData.email}</p>
           <p class="panel-tabs">
           ${
             Object.keys(userData.groups).map((key, index) =>
-              html`<a hx-get="group/${key}" class="${index == tabIndex ? "is-active" : ""}">${key}</a>`)
+              html`<a hx-get="api/group/${index}" hx-target="#mainPanel" class="${index == tabIndex ? "is-active" : ""}">${key}</a>`)
           }
           </p>
-          ${getGroupEmails(userData,"Eat")}
+          ${getGroupEmails(userData, tabIndex)}
       </nav>
     `
     return U.hr(h)
@@ -54,10 +56,13 @@ const drawUserTasks = (user, tabIndex) => {
 
 module.exports = async function (context, req) {
   const user = U.getUser(req)
-  context.log(`GETLOGIN:${JSON.stringify(user)}`)
+  const param = context.bindingData.index
+  const index = Number.isInteger(param) ? param : parseInt(param.string)
+
+  context.log(`GETLOGIN:${JSON.stringify(user)} with index:${index}`)
 
   if(user)
-    return drawUserTasks(user, 0)
+    return drawUserTasks(user, index)
   else
     return drawIntroPage()
 };
