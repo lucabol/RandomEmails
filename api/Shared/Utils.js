@@ -27,6 +27,22 @@ async function getUser1() {
      return clientPrincipal
 }
 
+const loadUserData = user =>
+  ({
+    "id": "4cfcf612-0807-4d63-a054-a46638c78925",
+    "email": "lucabolloc@gmail.com",
+    "groups": {
+      "Eat": {
+        "weekly": ["Eat broccoli and potatoes", "Eat Carrots"],
+        "monthly": ["Eat dessert", "Eat Nothing"]
+      },
+      "Read": {
+        "weekly": ["Read Economist", "Read Gazzette", "Read me"],
+        "monthly": []
+      },
+    }
+ })
 
 module.exports.hr = hr
 module.exports.getUser = getUser
+module.exports.loadUserData = loadUserData
