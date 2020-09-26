@@ -41,7 +41,7 @@ const drawUserTasks = (user, tabIndex) => {
     const userData = U.loadUserData(user)
     const h = html`
       <nav id="mainPanel" class="panel is-info">
-        <p class="panel-heading has-text-centered">Random Emails for ${userData.email}</p>
+        <p class="panel-heading has-text-centered">Random Emails for ${user.userDetails}</p>
           <p class="panel-tabs">
           ${
             Object.keys(userData.groups).map((key, index) =>
