@@ -21,8 +21,13 @@ const drawIntroPage = () =>
       </div>
     `)
 
-const pB = (text, classText) => html`
-  <p class="panel-block ${classText}">${text}</p>
+const pB = (text, classText, isPlus) => html`
+  <a class="panel-block ${classText}">
+    <span class="panel-icon">
+      <i class="fas ${isPlus ? "fa-plus-circle" : "fa-minus-circle"} aria-hidden="true"></i>
+    </span>
+    ${text}
+  </a>
 `
 const getGroupEmails = (userData, tabIndex) => {
   const groupName = Object.keys(userData.groups)[tabIndex]
@@ -30,9 +35,9 @@ const getGroupEmails = (userData, tabIndex) => {
   const weekly = group.weekly
   const monthly = group.monthly
   return html`
-    ${pB("Weekly", "has-text-danger is-uppercase has-text-weight-bold")}
+    ${pB("Weekly", "has-text-danger is-uppercase has-text-weight-bold", true)}
     ${weekly.map((key, index) => pB(key))}
-    ${pB("Monthly", "has-text-danger is-uppercase has-text-weight-bold")}
+    ${pB("Monthly", "has-text-danger is-uppercase has-text-weight-bold", true)}
     ${monthly.map((key, index) => pB(key))}
     `
 }
