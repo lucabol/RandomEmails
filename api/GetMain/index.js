@@ -23,14 +23,11 @@ const drawIntroPage = () =>
 
 const pB = (text, classText, isPlus) => html`
   <a class="panel-block ${classText}">
-    <span class="panel-icon">
-      <i class="fas ${isPlus ? "fa-plus-circle" : "fa-minus-circle"} fa-lg aria-hidden="true"></i>
-    </span>
-    ${isPlus ? html`` : html`
+    ${isPlus ? html`
       <span class="panel-icon">
-        <i class="fas fa-edit fa-lg aria-hidden="true"></i>
+        <i class="fas fa-plus-circle aria-hidden="true"></i>
       </span>
-    `}
+    ` : html``}
     ${text}
   </a>
 `
@@ -55,8 +52,14 @@ const drawUserTasks = (user, tabIndex) => {
           <p class="panel-tabs">
           ${
             Object.keys(userData.groups).map((key, index) =>
-              html`<a hx-get="api/group/${index}" hx-target="#mainPanel" class="${index == tabIndex ? "is-active" : ""}">${key}</a>`)
+              html`<a hx-get="api/group/${index}" hx-target="#mainPanel" class="has-text-weight-semibold ${index == tabIndex ? "is-active" : ""}">${key}</a>`)
           }
+
+      <a>
+      <span>
+        <i class="fas fa-edit aria-hidden="true"></i>
+      </span>
+      </a>
           </p>
           ${getGroupEmails(userData, tabIndex)}
       </nav>
