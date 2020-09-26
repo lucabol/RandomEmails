@@ -24,8 +24,13 @@ const drawIntroPage = () =>
 const pB = (text, classText, isPlus) => html`
   <a class="panel-block ${classText}">
     <span class="panel-icon">
-      <i class="fas ${isPlus ? "fa-plus-circle" : "fa-minus-circle"} aria-hidden="true"></i>
+      <i class="fas ${isPlus ? "fa-plus-circle" : "fa-minus-circle"} fa-lg aria-hidden="true"></i>
     </span>
+    ${isPlus ? html`` : html`
+      <span class="panel-icon">
+        <i class="fas fa-edit fa-lg aria-hidden="true"></i>
+      </span>
+    `}
     ${text}
   </a>
 `
