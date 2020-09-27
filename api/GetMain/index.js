@@ -25,8 +25,8 @@ const pB = ({id, text}, classText) => html`
   <a class="panel-block ${classText}"
   ${!id ? html`hx-post="api/email"` : html``}
   >
-    ${text}
     ${!id ? html`
+      ${text}
       <span class="panel-icon ml-2">
         <i class="fas fa-plus-circle" aria-hidden="true"></i>
       </span>
@@ -34,6 +34,7 @@ const pB = ({id, text}, classText) => html`
       <span class="panel-icon ml-2" hx-delete="api/email/${id}" hx-swap="outerHTML swap:0.5s" hx-target="closest a">
         <i class="fas fa-minus-circle" aria-hidden="true"></i>
       </span>
+      ${text}
     `}
   </a>
 `
