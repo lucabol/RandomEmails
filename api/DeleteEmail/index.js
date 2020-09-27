@@ -71,13 +71,11 @@ const drawUserTasks = (user, tabIndex) => {
 
 module.exports = async function (context, req) {
   const user = U.getUser(req)
-  const param = context.bindingData.index
-  const index = Number.isInteger(param) ? param : parseInt(param.string)
-
-  context.log(`GETLOGIN:${JSON.stringify(user)} with index:${index}`)
+  const param = context.bindingData.id
+  const id = Number.isInteger(param) ? param : parseInt(param.string)
 
   if(user)
-    return drawUserTasks(user, index)
+    return ""
   else
-    return drawIntroPage()
+    throw "Unable to retrieve user"
 };

@@ -33,11 +33,11 @@ const loadUserData = user =>
     "email": "lucabolloc@gmail.com",
     "groups": {
       "Eat": {
-        "weekly": ["Eat broccoli and potatoes", "Eat Carrots"],
-        "monthly": ["Eat dessert", "Eat Nothing"]
+        "weekly": [{id:"1dfb2d51-0a93-45cf-aad3-0955152eb6a1", text:"Eat broccoli and potatoes"}, {id:"3dfb2d51-0a93-45cf-aad3-0955152eb6a2", text:"Eat Carrots"}],
+        "monthly": [{id:"2dfb2d51-0a93-45cf-aad3-0955152eb6a3", text:"Eat dessert"}, {id:"3dfb2d51-0a93-45cf-aad3-0955152eb6a4", text:"Eat Nothing"}]
       },
       "Read": {
-        "weekly": ["Read Economist", "Read Gazzette", "Read me"],
+        "weekly": [{id:"3dfb2d51-0a93-45cf-aad3-0955152eb6a5", text:"Read Economist"}, {id:"3dfb2d51-0a93-45cf-aad3-0955152eb6a6", text:"Read Gazzette"}, {id:"3dfb2d51-0a93-45cf-aad3-0955152eb6a7", text:"Read me"}],
         "monthly": []
       },
     }
