@@ -23,14 +23,18 @@ const drawIntroPage = () =>
 
 const pB = ({id, text}, classText) => html`
   <a class="panel-block ${classText}"
-  ${!id ? html`hx-post="api/email"` : html`hx-delete="api/email/${id}" hx-swap="outerHTML swap:0.5s"`}
+  ${!id ? html`hx-post="api/email"` : html``}
   >
     ${text}
     ${!id ? html`
       <span class="panel-icon ml-2">
-        <i class="fas fa-plus-circle aria-hidden="true"></i>
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
       </span>
-    ` : html``}
+    ` : html`
+      <span class="panel-icon ml-2" hx-delete="api/email/${id}" hx-swap="outerHTML swap:0.5s" hx-target="closest a">
+        <i class="fas fa-minus-circle" aria-hidden="true"></i>
+      </span>
+    `}
   </a>
 `
 const getGroupEmails = (userData, tabIndex) => {
@@ -48,6 +52,7 @@ const getGroupEmails = (userData, tabIndex) => {
 
 const drawUserTasks = (user, tabIndex) => {
     const userData = U.loadUserData(user)
+    // TODO: load from db
     const h = html`
       <nav id="mainPanel" class="panel is-info">
         <p class="panel-heading has-text-centered">Random Emails for ${user.userDetails}</p>
