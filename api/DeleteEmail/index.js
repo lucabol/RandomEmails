@@ -54,7 +54,7 @@ const drawUserTasks = (user, tabIndex) => {
           <p class="panel-tabs">
           ${
             Object.keys(userData.groups).map((key, index) =>
-              html`<a hx-get="api/group/${index}" hx-target="#mainPanel" hx-swap="outerHtml" class="has-text-weight-semibold ${index == tabIndex ? "is-active" : ""}">${key}</a>`)
+              html`<a hx-get="api/group/${index}" hx-target="#mainPanel" hx-swap="outerHTML" class="has-text-weight-semibold ${index == tabIndex ? "is-active" : ""}">${key}</a>`)
           }
 
       <a>
@@ -69,13 +69,17 @@ const drawUserTasks = (user, tabIndex) => {
     return U.hr(h)
 }
 
+function isString(x) {
+  return Object.prototype.toString.call(x) === "[object String]"
+}
+
 module.exports = async function (context, req) {
   const user = U.getUser(req)
   const param = context.bindingData.id
-  const id = Number.isInteger(param) ? param : parseInt(param.string)
+  const id = isString(param) ? param : param.string
 
   if(user)
-    return ""
+    return U.hr(html``)
   else
     throw "Unable to retrieve user"
 };

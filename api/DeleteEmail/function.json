@@ -8,7 +8,7 @@
       "methods": [
         "delete"
       ],
-      "route": "email/{id:alpha}"
+      "route": "email/{id:guid}"
     },
     {
       "type": "http",

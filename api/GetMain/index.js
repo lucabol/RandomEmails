@@ -23,7 +23,7 @@ const drawIntroPage = () =>
 
 const pB = ({id, text}, classText) => html`
   <a class="panel-block ${classText}"
-  ${!id ? html`hx-post="api/email"` : html`hx-delete="api/email/${id}"`}
+  ${!id ? html`hx-post="api/email"` : html`hx-delete="api/email/${id}" hx-swap="outerHTML swap:0.5s"`}
   >
     ${text}
     ${!id ? html`
@@ -54,7 +54,7 @@ const drawUserTasks = (user, tabIndex) => {
           <p class="panel-tabs">
           ${
             Object.keys(userData.groups).map((key, index) =>
-              html`<a hx-get="api/group/${index}" hx-target="#mainPanel" hx-swap="outerHtml" class="has-text-weight-semibold ${index == tabIndex ? "is-active" : ""}">${key}</a>`)
+              html`<a hx-get="api/group/${index}" hx-target="#mainPanel" hx-swap="outerHTML" class="has-text-weight-semibold ${index == tabIndex ? "is-active" : ""}">${key}</a>`)
           }
 
       <a>
