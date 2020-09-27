@@ -23,12 +23,12 @@ const drawIntroPage = () =>
 
 const pB = (text, classText, isPlus) => html`
   <a class="panel-block ${classText}">
+    ${text}
     ${isPlus ? html`
-      <span class="panel-icon">
+      <span class="panel-icon ml-2">
         <i class="fas fa-plus-circle aria-hidden="true"></i>
       </span>
     ` : html``}
-    ${text}
   </a>
 `
 const getGroupEmails = (userData, tabIndex) => {
