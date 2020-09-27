@@ -22,7 +22,9 @@ const drawIntroPage = () =>
     `)
 
 const pB = (text, classText, isPlus) => html`
-  <a class="panel-block ${classText}">
+  <a class="panel-block ${classText}"
+  ${isPlus ? html`hx-get="api/AddEmail"` : html`hx-get="api/EditEmail"`}
+  >
     ${text}
     ${isPlus ? html`
       <span class="panel-icon ml-2">
