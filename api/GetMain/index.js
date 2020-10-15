@@ -23,7 +23,7 @@ const drawIntroPage = () =>
 
 const pB = ({id, text}, classText) => html`
   <a class="panel-block ${classText}"
-  ${!id ? html`hx-post="api/email"` : html``}
+  ${!id ? html`hx-get="api/emailForm" hx-target="this" hx-swap="afterend swap:0.5s"` : html``}
   >
     ${!id ? html`
       ${text}
