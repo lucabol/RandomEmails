@@ -1,3 +1,5 @@
+const html = require("nanohtml")
+
 const hr = htmlEl => { 
   return {
     status: 200,
@@ -27,6 +29,23 @@ async function getUser1() {
      return clientPrincipal
 }
 
+const drawEmail = ({id, text}, classText) => html`
+  <a class="panel-block ${classText}"
+  ${!id ? html`hx-get="api/emailForm" hx-target="this" hx-swap="afterend swap:0.5s"` : html``}
+  >
+    ${!id ? html`
+      ${text}
+      <span class="panel-icon ml-2">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+      </span>
+    ` : html`
+      <span class="panel-icon ml-2" hx-delete="api/email/${id}" hx-swap="outerHTML swap:0.5s" hx-target="closest a">
+        <i class="fas fa-minus-circle" aria-hidden="true"></i>
+      </span>
+      ${text}
+    `}
+  </a>
+`
 const loadUserData = user =>
   ({
     "id": "4cfcf612-0807-4d63-a054-a46638c78925",
@@ -46,3 +65,4 @@ const loadUserData = user =>
 module.exports.hr = hr
 module.exports.getUser = getUser
 module.exports.loadUserData = loadUserData
+module.exports.drawEmail = drawEmail

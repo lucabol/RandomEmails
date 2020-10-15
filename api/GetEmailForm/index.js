@@ -6,7 +6,7 @@ module.exports = async function (context, req) {
 
     // TODO: research optimization not to call the server on Cancel button press
     return U.hr(html`
-        <form hx-post='api/email' hx-target="this" hx-swap="outerHTML">
+        <form hx-post='api/email' hx-ext='json-enc' hx-target="this" hx-swap="outerHTML">
             <div class="field is-horizontal">
                 <div class="field-body ml-5">
                     <div class="field">

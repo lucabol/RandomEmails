@@ -21,33 +21,16 @@ const drawIntroPage = () =>
       </div>
     `)
 
-const pB = ({id, text}, classText) => html`
-  <a class="panel-block ${classText}"
-  ${!id ? html`hx-get="api/emailForm" hx-target="this" hx-swap="afterend swap:0.5s"` : html``}
-  >
-    ${!id ? html`
-      ${text}
-      <span class="panel-icon ml-2">
-        <i class="fas fa-plus-circle" aria-hidden="true"></i>
-      </span>
-    ` : html`
-      <span class="panel-icon ml-2" hx-delete="api/email/${id}" hx-swap="outerHTML swap:0.5s" hx-target="closest a">
-        <i class="fas fa-minus-circle" aria-hidden="true"></i>
-      </span>
-      ${text}
-    `}
-  </a>
-`
 const getGroupEmails = (userData, tabIndex) => {
   const groupName = Object.keys(userData.groups)[tabIndex]
   const group = userData.groups[groupName]
   const weekly = group.weekly
   const monthly = group.monthly
   return html`
-    ${pB({id:"", text:"Weekly"}, "has-text-danger is-uppercase has-text-weight-bold")}
-    ${weekly.map((key, index) => pB(key))}
-    ${pB({id:"", text:"Monthly"}, text="has-text-danger is-uppercase has-text-weight-bold")}
-    ${monthly.map((key, index) => pB(key))}
+    ${U.drawEmail({id:"", text:"Weekly"}, "has-text-danger is-uppercase has-text-weight-bold")}
+    ${weekly.map((key, index) => U.drawEmail(key))}
+    ${U.drawEmail({id:"", text:"Monthly"}, text="has-text-danger is-uppercase has-text-weight-bold")}
+    ${monthly.map((key, index) => U.drawEmail(key))}
     `
 }
 
