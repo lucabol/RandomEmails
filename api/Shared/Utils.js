@@ -107,11 +107,10 @@ async function postTask(user, id, group, period, task) {
   const c = await fetchCollection()
   const path = ["groups", group, period.toLowerCase()].join('.')
   const updateInstruction = {}
-  updateInstruction[path] = 
-            {
-                "id": id,
-                "text": task
-            }
+  updateInstruction[path] = {
+      "$each":[{ "id": id, "text": task }],
+      "$position": 0
+  }
   const updateObj = { "$push": updateInstruction }
 
   const r = await c.updateOne(
