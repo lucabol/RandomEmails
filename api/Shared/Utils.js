@@ -1,4 +1,31 @@
 const html = require("nanohtml")
+const { MongoClient } = require("mongodb")
+const { uuid } = require("uuidv4")
+
+const cosmoUrl = process.env.COSMO_URL
+const database = "RandomEmails"
+const collection = "Users"
+let client = null
+
+async function fetchCollection() {
+  if(!client) client = await MongoClient.connect(cosmoUrl, { useNewUrlParser: true });
+
+  const db = client.db(database);
+  return db.collection(collection);
+}
+
+// Caching client connection
+// TODO: manage errors
+const withCollection = funcOnCollection => {
+  if(client) {
+    context.res = funcOnCollection(client.db(database).collection(collection), context)
+  } else {
+    mongoClient.connect(cosmoUrl, (err, cl) => {
+      client = cl
+      context.res = funcOnCollection(client.db(database).collection(collection), context)  
+    })
+  }
+}
 
 const hr = htmlEl => { 
   return {
@@ -29,9 +56,9 @@ async function getUser1() {
      return clientPrincipal
 }
 
-const drawEmail = ({id, text}, classText) => html`
+const drawEmail = ({id, text, group}, classText) => html`
   <a class="panel-block ${classText}"
-  ${!id ? html`hx-get="api/emailForm" hx-target="this" hx-swap="afterend swap:0.5s"` : html``}
+  ${!id ? html`hx-get="api/emailForm" hx-vars="period:'${text}',group:'${group}'" hx-target="this" hx-swap="afterend swap:0.5s"` : html``}
   >
     ${!id ? html`
       ${text}
@@ -46,23 +73,55 @@ const drawEmail = ({id, text}, classText) => html`
     `}
   </a>
 `
-const loadUserData = user =>
-  ({
-    "id": "4cfcf612-0807-4d63-a054-a46638c78925",
-    "email": "lucabolloc@gmail.com",
-    "groups": {
-      "Eat": {
-        "weekly": [{id:"1dfb2d51-0a93-45cf-aad3-0955152eb6a1", text:"Eat broccoli and potatoes"}, {id:"3dfb2d51-0a93-45cf-aad3-0955152eb6a2", text:"Eat Carrots"}],
-        "monthly": [{id:"2dfb2d51-0a93-45cf-aad3-0955152eb6a3", text:"Eat dessert"}, {id:"3dfb2d51-0a93-45cf-aad3-0955152eb6a4", text:"Eat Nothing"}]
-      },
-      "Read": {
-        "weekly": [{id:"3dfb2d51-0a93-45cf-aad3-0955152eb6a5", text:"Read Economist"}, {id:"3dfb2d51-0a93-45cf-aad3-0955152eb6a6", text:"Read Gazzette"}, {id:"3dfb2d51-0a93-45cf-aad3-0955152eb6a7", text:"Read me"}],
-        "monthly": []
-      },
-    }
- })
+
+const defaultDoc = user => JSON.parse(`
+{
+	"_id" : "${uuid()}",
+	"email" : "${user.userDetails}",
+	"groups" : {
+		"Group1" : {
+			"weekly" : [
+				{
+					"id" : "1dfb2d51-0a93-45cf-aad3-0955152eb6a1",
+					"text" : "Eat broccoli and potatoes"
+				}
+			],
+			"monthly" : [
+			]
+		},
+		"Group2" : {
+			"weekly" : [
+			],
+			"monthly" : [ ]
+		}
+	}
+}
+`)
+async function loadUserData(user) {
+  const c = await fetchCollection()
+  const u = await c.findOne({email: user.userDetails})
+  return u ? u : defaultDoc(user)
+}
+
+async function postTask(user, id, group, period, task) {
+  const c = await fetchCollection()
+  const path = ["groups", group, period.toLowerCase()].join('.')
+  const updateInstruction = {}
+  updateInstruction[path] = 
+            {
+                "id": id,
+                "text": task
+            }
+  const updateObj = { "$push": updateInstruction }
+
+  const r = await c.updateOne(
+    {email: user.userDetails},
+    updateObj        
+  )
+}
 
 module.exports.hr = hr
 module.exports.getUser = getUser
 module.exports.loadUserData = loadUserData
 module.exports.drawEmail = drawEmail
+module.exports.postTask = postTask

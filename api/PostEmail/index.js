@@ -14,11 +14,13 @@ function isString(x) {
 
 module.exports = async function (context, req) {
   const user = U.getUser(req)
-  const task = context.bindingData.task
   const id = uuid()
-  context.log(`POSTEMAIL: id=${id}, task=${task}`)
+  const group = context.bindingData.group
+  const period = context.bindingData.period
+  const task = context.bindingData.task
+  context.log(`POSTEMAIL: id=${id}, task=${task}, period=${period}, user=${user.userDetails}`)
 
-  // TODO: Add to db
+  await U.postTask(user, id, group, period, task)
 
   if(user)
     return U.hr(U.drawEmail({id: id, text: task}))

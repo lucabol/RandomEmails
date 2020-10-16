@@ -27,35 +27,30 @@ const getGroupEmails = (userData, tabIndex) => {
   const weekly = group.weekly
   const monthly = group.monthly
   return html`
-    ${U.drawEmail({id:"", text:"Weekly"}, "has-text-danger is-uppercase has-text-weight-bold")}
+    ${U.drawEmail({id:"", text:"Weekly", group: groupName}, "has-text-danger is-uppercase has-text-weight-bold")}
     ${weekly.map((key, index) => U.drawEmail(key))}
-    ${U.drawEmail({id:"", text:"Monthly"}, text="has-text-danger is-uppercase has-text-weight-bold")}
+    ${U.drawEmail({id:"", text:"Monthly", group: groupName}, text="has-text-danger is-uppercase has-text-weight-bold")}
     ${monthly.map((key, index) => U.drawEmail(key))}
     `
 }
 
-const drawUserTasks = (user, tabIndex) => {
-    const userData = U.loadUserData(user)
-    // TODO: load from db
-    const h = html`
+async function drawUserTasks(user, tabIndex) {
+  const userData = await U.loadUserData(user)
+  const h = html`
       <nav id="mainPanel" class="panel is-info">
         <p class="panel-heading has-text-centered">Random Emails for ${user.userDetails}</p>
           <p class="panel-tabs">
-          ${
-            Object.keys(userData.groups).map((key, index) =>
-              html`<a hx-get="api/group/${index}" hx-target="#mainPanel" hx-swap="outerHTML" class="has-text-weight-semibold ${index == tabIndex ? "is-active" : ""}">${key}</a>`)
-          }
-
+          ${Object.keys(userData.groups).map((key, index) => html`<a hx-get="api/group/${index}" hx-target="#mainPanel" hx-swap="outerHTML" class="has-text-weight-semibold ${index == tabIndex ? "is-active" : ""}">${key}</a>`)}
       <a>
-      <span>
-        <i class="fas fa-edit aria-hidden="true"></i>
-      </span>
+        <span>
+          <i class="fas fa-edit aria-hidden="true"></i>
+        </span>
       </a>
           </p>
           ${getGroupEmails(userData, tabIndex)}
       </nav>
     `
-    return U.hr(h)
+  return U.hr(h)
 }
 
 module.exports = async function (context, req) {
@@ -63,10 +58,10 @@ module.exports = async function (context, req) {
   const param = context.bindingData.index
   const index = Number.isInteger(param) ? param : parseInt(param.string)
 
-  context.log(`GETLOGIN:${JSON.stringify(user)} with index:${index}`)
+  context.log(`GETMAIN:${JSON.stringify(user)} with index:${index}`)
 
   if(user)
-    return drawUserTasks(user, index)
+    return await drawUserTasks(user, index)
   else
     return drawIntroPage()
 };

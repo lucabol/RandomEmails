@@ -7,6 +7,8 @@ module.exports = async function (context, req) {
     // TODO: research optimization not to call the server on Cancel button press
     return U.hr(html`
         <form hx-post='api/email' hx-ext='json-enc' hx-target="this" hx-swap="outerHTML">
+            <input type="hidden" name="period" value="${req.query.period}"></input>
+            <input type="hidden" name="group" value="${req.query.group}"></input>
             <div class="field is-horizontal">
                 <div class="field-body ml-5">
                     <div class="field">
