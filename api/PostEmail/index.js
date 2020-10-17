@@ -23,7 +23,7 @@ module.exports = async function (context, req) {
   await U.postTask(user, id, group, period, task)
 
   if(user)
-    return U.hr(U.drawEmail({id: id, text: task}))
+    return U.hr(U.drawEmail({id: id, text: task, group: group, period: period }))
   else
     throw "Unable to retrieve user"
 };

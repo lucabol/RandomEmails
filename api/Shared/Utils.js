@@ -56,9 +56,9 @@ async function getUser1() {
      return clientPrincipal
 }
 
-const drawEmail = ({id, text, group}, classText) => html`
+const drawEmail = ({id, text, group, period}, classText) => html`
   <a class="panel-block ${classText}"
-  ${!id ? html`hx-get="api/emailForm" hx-vars="period:'${text}',group:'${group}'" hx-target="this" hx-swap="afterend swap:0.5s"` : html``}
+  ${!id ? html`hx-get="api/emailForm" hx-vars="period:'${period}',group:'${group}'" hx-target="this" hx-swap="afterend swap:0.5s"` : html``}
   >
     ${!id ? html`
       ${text}
@@ -66,7 +66,7 @@ const drawEmail = ({id, text, group}, classText) => html`
         <i class="fas fa-plus-circle" aria-hidden="true"></i>
       </span>
     ` : html`
-      <span class="panel-icon ml-2" hx-delete="api/email/${id}" hx-swap="outerHTML swap:0.5s" hx-target="closest a">
+      <span class="panel-icon ml-2" hx-delete="api/email/${id}"  hx-ext='json-enc' hx-vars="period:'${period}',group:'${group}'" hx-swap="outerHTML swap:0.5s" hx-target="closest a">
         <i class="fas fa-minus-circle" aria-hidden="true"></i>
       </span>
       ${text}
@@ -99,8 +99,15 @@ const defaultDoc = user => JSON.parse(`
 `)
 async function loadUserData(user) {
   const c = await fetchCollection()
-  const u = await c.findOne({email: user.userDetails})
-  return u ? u : defaultDoc(user)
+  const u = await c.findOne(
+    {email: user.userDetails}
+  )
+  if(u) {
+    return u
+  } else {
+    await c.insertOne(defaultDoc(user))
+    return u
+  }
 }
 
 async function postTask(user, id, group, period, task) {
@@ -119,8 +126,24 @@ async function postTask(user, id, group, period, task) {
   )
 }
 
+async function deleteTask(user, id, group, period) {
+  const c = await fetchCollection()
+  const path = ["groups", group, period.toLowerCase()].join('.')
+  const updateInstruction = {}
+  updateInstruction[path] = {
+    "id": id
+  }
+  const updateObj = { "$pull": updateInstruction}
+  
+  const r = await c.updateOne(
+    {email: user.userDetails},
+    updateObj        
+  )
+}
+
 module.exports.hr = hr
 module.exports.getUser = getUser
 module.exports.loadUserData = loadUserData
 module.exports.drawEmail = drawEmail
 module.exports.postTask = postTask
+module.exports.deleteTask = deleteTask

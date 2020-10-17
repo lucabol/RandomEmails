@@ -21,15 +21,22 @@ const drawIntroPage = () =>
       </div>
     `)
 
+const enrich = (task, period, group) => {
+  task.period = period
+  task.group = group
+  return task
+}
+
 const getGroupEmails = (userData, tabIndex) => {
   const groupName = Object.keys(userData.groups)[tabIndex]
   const group = userData.groups[groupName]
-  const weekly = group.weekly
-  const monthly = group.monthly
+  const weekly = group.weekly.map(t => enrich(t, "Weekly", groupName))
+  const monthly = group.monthly.map(t => enrich(t, "Weekly", groupName))
+
   return html`
-    ${U.drawEmail({id:"", text:"Weekly", group: groupName}, "has-text-danger is-uppercase has-text-weight-bold")}
+    ${U.drawEmail({id:"", text:"Weekly", group: groupName, period: "Weekly"}, "has-text-danger is-uppercase has-text-weight-bold")}
     ${weekly.map((key, index) => U.drawEmail(key))}
-    ${U.drawEmail({id:"", text:"Monthly", group: groupName}, text="has-text-danger is-uppercase has-text-weight-bold")}
+    ${U.drawEmail({id:"", text:"Monthly", group: groupName, period: "Monthly"}, text="has-text-danger is-uppercase has-text-weight-bold")}
     ${monthly.map((key, index) => U.drawEmail(key))}
     `
 }

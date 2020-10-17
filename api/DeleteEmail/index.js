@@ -8,9 +8,11 @@ function isString(x) {
 module.exports = async function (context, req) {
   const user = U.getUser(req)
   const param = context.bindingData.id
+  const group = context.bindingData.group
+  const period = context.bindingData.period
   const id = isString(param) ? param : param.string
 
-  // TODO: delete from db
+  await U.deleteTask(user, id, group, period)
 
   if(user)
     return U.hr(html``)
