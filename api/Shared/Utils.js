@@ -80,19 +80,56 @@ const defaultDoc = user => JSON.parse(`
 	"email" : "${user.userDetails}",
 	"groups" : {
 		"Group1" : {
-			"weekly" : [
+			"Often" : [
 				{
-					"id" : "1dfb2d51-0a93-45cf-aad3-0955152eb6a1",
+					"id" : "1dfb2d51-0a93-45cf-aad3-0955152eb6a3",
 					"text" : "Eat broccoli and potatoes"
 				}
 			],
-			"monthly" : [
+			"Seldom" : [
+				{
+					"id" : "1dfb2d51-0a93-45cf-aad3-0955152eb6a1",
+					"text" : "Have an ice cream"
+				}
+			],
+			"Rarely" : [
+				{
+					"id" : "1dfb2d51-0a93-45cf-aad3-0955152eb6a4",
+					"text" : "Go to Vegas this week end"
+				}
 			]
 		},
 		"Group2" : {
-			"weekly" : [
+			"Often" : [
 			],
-			"monthly" : [ ]
+			"Seldom" : [
+			],
+			"Rarely" : [
+			]
+		},
+		"Group3" : {
+			"Often" : [
+			],
+			"Seldom" : [
+			],
+			"Rarely" : [
+			]
+		},
+		"Group4" : {
+			"Often" : [
+			],
+			"Seldom" : [
+			],
+			"Rarely" : [
+			]
+		},
+		"Group5" : {
+			"Often" : [
+			],
+			"Seldom" : [
+			],
+			"Rarely" : [
+			]
 		}
 	}
 }
@@ -105,8 +142,9 @@ async function loadUserData(user) {
   if(u) {
     return u
   } else {
-    await c.insertOne(defaultDoc(user))
-    return u
+    const d = defaultDoc(user)
+    await c.insertOne(d)
+    return d
   }
 }
 

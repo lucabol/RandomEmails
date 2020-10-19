@@ -30,15 +30,33 @@ const enrich = (task, period, group) => {
 const getGroupEmails = (userData, tabIndex) => {
   const groupName = Object.keys(userData.groups)[tabIndex]
   const group = userData.groups[groupName]
+  var h = html``
+
+  Object.keys(group).forEach((key,index) => {
+    h = html`
+      ${h}
+      ${U.drawEmail({id:"", text:key, group: groupName, period: key}, "has-text-danger is-uppercase has-text-weight-bold")}
+      `
+    const emails = group[key].map(t => enrich(t, key, groupName))
+    emails.forEach(e => {
+      h = html`
+        ${h}
+        ${U.drawEmail(e)}
+      `
+    }
+  )});
+  return h
+
   const weekly = group.weekly.map(t => enrich(t, "Weekly", groupName))
   const monthly = group.monthly.map(t => enrich(t, "Weekly", groupName))
 
-  return html`
+  const h1 = html`
     ${U.drawEmail({id:"", text:"Weekly", group: groupName, period: "Weekly"}, "has-text-danger is-uppercase has-text-weight-bold")}
     ${weekly.map((key, index) => U.drawEmail(key))}
     ${U.drawEmail({id:"", text:"Monthly", group: groupName, period: "Monthly"}, text="has-text-danger is-uppercase has-text-weight-bold")}
     ${monthly.map((key, index) => U.drawEmail(key))}
     `
+  return h1
 }
 
 async function drawUserTasks(user, tabIndex) {
@@ -48,11 +66,11 @@ async function drawUserTasks(user, tabIndex) {
         <p class="panel-heading has-text-centered">Random Emails for ${user.userDetails}</p>
           <p class="panel-tabs">
           ${Object.keys(userData.groups).map((key, index) => html`<a hx-get="api/group/${index}" hx-target="#mainPanel" hx-swap="outerHTML" class="has-text-weight-semibold ${index == tabIndex ? "is-active" : ""}">${key}</a>`)}
-      <a>
-        <span>
-          <i class="fas fa-edit aria-hidden="true"></i>
-        </span>
-      </a>
+          <a>
+            <span>
+              <i class="fas fa-edit aria-hidden="true"></i>
+            </span>
+          </a>
           </p>
           ${getGroupEmails(userData, tabIndex)}
       </nav>
