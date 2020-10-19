@@ -82,7 +82,7 @@ const defaultDoc = user => JSON.parse(`
 			"rarely" : [
 				{
 					"id" : "1dfb2d51-0a93-45cf-aad3-0955152eb6a4",
-					"text" : "Go to Vegas this week end"
+					"text" : "Go to the most expensive restaurant in town"
 				}
 			]
 		},

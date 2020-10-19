@@ -15,9 +15,57 @@
       transition: opacity 1s ease-out;
     }
   </style>
+  <script>
+  function toggleModal() {
+      const e = document.getElementById("modalinfo")
+      e.classList.toggle('is-active');
+  }
+  </script>
 </head>
 
 <body>
+  <div id="modalinfo" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Instructions</p>
+      </header>
+      <section class="modal-card-body">
+        <div class="content">
+          <h2>Concepts</h2>
+          <p><dfn>Random tasks</dfn> are tasks that you want to get done with an approximate
+            frequency, but you don't mind the exact day. You want it to be a surprise for you,
+            the recipient of the action or both.
+          </p>
+          <p>A <dfn>group</dfn> is a container for tasks. On any day, just a single task for each group will be scheduled.</p>
+          <P>The <dfn>Scheduler algorithm</dfn> works as follows:</p>
+            <ol>
+              <li>If a 'rarely' task is randomly chosen, that task is scheduled.</li>
+              <li>If a 'seldom' task is randomly chosen, that task is scheduled.</li>
+              <li>If a 'often' task is randomly chosen, that task is scheduled.</li>
+              <li>Otherwise, no task is scheduled.</li>
+            </ol>
+          <p>A <dfn>rarely</dfn> task is scheduled approximately once every 365 days.</p>
+          <p>A <dfn>seldom</dfn> task is scheduled approximately once every 30 days.</p>
+          <p>A <dfn>often</dfn> task is scheduled approximately once every 7 days.</p>
+          <p>When a task is scheduled, an email is sent to the logged in user.</p>
+          <h2>Missing features:</h2>
+          <ul>
+            <li>Login with Google, Github, Facebook, etc... or name/password.</li>
+            <li>Modify names of groups. Not just Group1, ...</li>
+            <li>Send Whatsup, Messages instead of email.</li>
+            <li>Specify custom email address (likely needed for Google login)</li>
+            <li>Specify more complex scheduling rules (i.e. just on weekends, weekdays, per task cadence, ...)</li>
+            <li>Fix todos in the code.</li>
+          </ul>
+        </div>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success"  onclick="toggleModal()">Close</button>
+      </footer>
+    </div>  
+  </div>
+
   <!-- Brand and login -->
   <div class="hero is-small is-light bold">
     <div class="hero-body">
@@ -34,6 +82,11 @@
             </div>
           </div>
           <div class="level-right">
+            <div class="level-item">
+              <span class="icon is-large has-text-link" style="cursor:pointer" onclick="toggleModal()">
+                <i class="fas fa-2x fa-question-circle"></i>
+              </span>
+            </div>
             <div class="level-item">
               <div class="buttons">
                 <div hx-get="/api/login" hx-trigger="load" hx-swap="outerHTML"></div>
