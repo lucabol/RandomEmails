@@ -8,7 +8,7 @@ const collection = "Users"
 let client = null
 
 async function fetchCollection() {
-  client = await MongoClient.connect(cosmoUrl, { useNewUrlParser: true });
+  if(!client) client = await MongoClient.connect(cosmoUrl, { useNewUrlParser: true });
 
   const db = client.db(database);
   return db.collection(collection);
