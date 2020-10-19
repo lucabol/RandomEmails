@@ -8,23 +8,10 @@ const collection = "Users"
 let client = null
 
 async function fetchCollection() {
-  if(!client) client = await MongoClient.connect(cosmoUrl, { useNewUrlParser: true });
+  client = await MongoClient.connect(cosmoUrl, { useNewUrlParser: true });
 
   const db = client.db(database);
   return db.collection(collection);
-}
-
-// Caching client connection
-// TODO: manage errors
-const withCollection = funcOnCollection => {
-  if(client) {
-    context.res = funcOnCollection(client.db(database).collection(collection), context)
-  } else {
-    mongoClient.connect(cosmoUrl, (err, cl) => {
-      client = cl
-      context.res = funcOnCollection(client.db(database).collection(collection), context)  
-    })
-  }
 }
 
 const hr = htmlEl => { 
