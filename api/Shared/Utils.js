@@ -67,19 +67,19 @@ const defaultDoc = user => JSON.parse(`
 	"email" : "${user.userDetails}",
 	"groups" : {
 		"Group1" : {
-			"Often" : [
+			"often" : [
 				{
 					"id" : "1dfb2d51-0a93-45cf-aad3-0955152eb6a3",
 					"text" : "Eat broccoli and potatoes"
 				}
 			],
-			"Seldom" : [
+			"seldom" : [
 				{
 					"id" : "1dfb2d51-0a93-45cf-aad3-0955152eb6a1",
 					"text" : "Have an ice cream"
 				}
 			],
-			"Rarely" : [
+			"rarely" : [
 				{
 					"id" : "1dfb2d51-0a93-45cf-aad3-0955152eb6a4",
 					"text" : "Go to Vegas this week end"
@@ -87,35 +87,35 @@ const defaultDoc = user => JSON.parse(`
 			]
 		},
 		"Group2" : {
-			"Often" : [
+			"often" : [
 			],
-			"Seldom" : [
+			"seldom" : [
 			],
-			"Rarely" : [
+			"rarely" : [
 			]
 		},
 		"Group3" : {
-			"Often" : [
+			"often" : [
 			],
-			"Seldom" : [
+			"seldom" : [
 			],
-			"Rarely" : [
+			"rarely" : [
 			]
 		},
 		"Group4" : {
-			"Often" : [
+			"often" : [
 			],
-			"Seldom" : [
+			"seldom" : [
 			],
-			"Rarely" : [
+			"rarely" : [
 			]
 		},
 		"Group5" : {
-			"Often" : [
+			"often" : [
 			],
-			"Seldom" : [
+			"seldom" : [
 			],
-			"Rarely" : [
+			"rarely" : [
 			]
 		}
 	}
