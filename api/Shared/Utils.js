@@ -137,7 +137,7 @@ async function loadUserData(user) {
 
 async function postTask(user, id, group, period, task) {
   const c = await fetchCollection()
-  const path = ["groups", group, period.toLowerCase()].join('.')
+  const path = ["groups", group, period].join('.')
   const updateInstruction = {}
   updateInstruction[path] = {
       "$each":[{ "id": id, "text": task }],
@@ -153,7 +153,7 @@ async function postTask(user, id, group, period, task) {
 
 async function deleteTask(user, id, group, period) {
   const c = await fetchCollection()
-  const path = ["groups", group, period.toLowerCase()].join('.')
+  const path = ["groups", group, period].join('.')
   const updateInstruction = {}
   updateInstruction[path] = {
     "id": id
