@@ -46,17 +46,6 @@ const getGroupEmails = (userData, tabIndex) => {
     }
   )});
   return h
-
-  const weekly = group.weekly.map(t => enrich(t, "Weekly", groupName))
-  const monthly = group.monthly.map(t => enrich(t, "Weekly", groupName))
-
-  const h1 = html`
-    ${U.drawEmail({id:"", text:"Weekly", group: groupName, period: "Weekly"}, "has-text-danger is-uppercase has-text-weight-bold")}
-    ${weekly.map((key, index) => U.drawEmail(key))}
-    ${U.drawEmail({id:"", text:"Monthly", group: groupName, period: "Monthly"}, text="has-text-danger is-uppercase has-text-weight-bold")}
-    ${monthly.map((key, index) => U.drawEmail(key))}
-    `
-  return h1
 }
 
 async function drawUserTasks(user, tabIndex) {
