@@ -1,7 +1,8 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "description": "",
+  "private": true,
+  "description": "Live randomly",
   "scripts": {
     "start": "func start",
     "test": "echo \"No tests yet...\""
