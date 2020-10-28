@@ -135,6 +135,12 @@ async function loadUserData(user) {
   }
 }
 
+async function loadAllUsers() {
+  const c = await fetchCollection()
+  const users = await c.find()
+  return users
+}
+
 async function postTask(user, id, group, period, task) {
   const c = await fetchCollection()
   const path = ["groups", group, period].join('.')
@@ -172,3 +178,4 @@ module.exports.loadUserData = loadUserData
 module.exports.drawEmail = drawEmail
 module.exports.postTask = postTask
 module.exports.deleteTask = deleteTask
+module.exports.loadAllUsers = loadAllUsers
