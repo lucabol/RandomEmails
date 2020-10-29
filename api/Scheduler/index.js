@@ -1,6 +1,7 @@
 const U = require('../Shared/Utils.js')
 const html = require('nanohtml')
 const sgMail = require('@sendgrid/mail')
+const util = require('util')
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
@@ -8,7 +9,8 @@ const msg = (email, emailText) => { return {
   to: email,
   from: 'randommaster@em7473.lucabol.com', // Use the email address or domain you verified above
   subject: emailText,
-  text: ''
+  text: 'Remember, you promised to do this!!',
+  html: '<h2>Remember, you promised to do this!!</h2>'
 }}
 
 const sendEmail = async (email, emailText) => await sgMail.send(msg(email, emailText))
@@ -33,27 +35,50 @@ const randomSelect= (cadence, tasks) => {
   else
     return tasks[Math.floor(Math.random() * len)]
 }
-const processGroup = async (user, name, group) => {
+const pickTaskForGroup = (user, name, group) => {
   // reverse to start choosing from rarer tasks
-  Object.keys(group).reverse().forEach(async cadence => {
+  const groupTasks = Object.keys(group).reverse().map(cadence => {
     const tasks = group[cadence]
     for(var i = 0; i < tasks.length; i++) {
-      const emailText = randomSelect(cadence, tasks)
-      if(emailText) {
-        await sendEmail(user.email, `${name}: emailText`)
-        return
+      const task = randomSelect(cadence, tasks)
+      if(task) {
+        return `${name}: ${task.text}`
       }
     }
+    return null
   })
+  const groupTask = groupTasks.find(t => t) 
+  return groupTask
 } 
 
-const processUser = async user => {
+const pickTasks = user => {
   const groups = user.groups
-  Object.keys(groups).forEach(async name => await processGroup(user, name, groups[name]))
+  const tasks = Object.keys(groups).map(name => pickTaskForGroup(user, name, groups[name]))
+  return tasks
 }
 
 module.exports = async function (context, req) {
+  try {
     const users = await U.loadAllUsers()
-    users.each(async (err, user) => await processUser(user))
-    return U.hr(html``)
+
+    const emails = users.map(user => {
+      if(user) {
+        const tasks = pickTasks(user).filter(t => t)
+        if(tasks) {
+          return tasks.map(t => { return {to: user.email, subject: t}})
+        }
+      } else {
+        return undefined
+      }
+    })
+    const a = await emails.toArray()
+    // Flatten the array
+    const b = [].concat.apply([], a)
+    const promises = b.map(async t => sendEmail("lucabol@microsoft.com", t.subject))
+    //const promises = b.map(async t => sendEmail(t.to, t.subject))
+    const results = await Promise.allSettled(promises)
+    return U.hr(html`<pre>${JSON.stringify(results, null, 2)} ${JSON.stringify(b, null, 2)}</pre>`)
+  } catch(err) {
+    context.log.error(err)
+  }
 }
