@@ -57,7 +57,7 @@ const pickTasks = user => {
   return tasks
 }
 
-module.exports = async function (context, req) {
+module.exports = async function (context, myTimer) {
   try {
     const users = await U.loadAllUsers()
 
