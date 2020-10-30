@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://unpkg.com/htmx.org"></script>
+  <script src="https://unpkg.com/hyperscript.org"></script>
   <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
   <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
@@ -15,12 +16,6 @@
       transition: opacity 1s ease-out;
     }
   </style>
-  <script>
-  function toggleModal() {
-      const e = document.getElementById("modalinfo")
-      e.classList.toggle('is-active');
-  }
-  </script>
 </head>
 
 <body>
@@ -65,7 +60,7 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success"  onclick="toggleModal()">Close</button>
+        <button class="button is-success" _="on click toggle .is-active on #modalinfo">Close</button>
       </footer>
     </div>  
   </div>
@@ -87,7 +82,7 @@
           </div>
           <div class="level-right">
             <div class="level-item">
-              <span class="icon is-large has-text-link" style="cursor:pointer" onclick="toggleModal()">
+              <span class="icon is-large has-text-link" style="cursor:pointer" _="on click toggle .is-active on #modalinfo">
                 <i class="fas fa-2x fa-question-circle"></i>
               </span>
             </div>
